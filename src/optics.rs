@@ -6,7 +6,7 @@ pub fn calculate_point_brightness(
     lights: &[Light],
     triangle: &Triangle,
     material: &Material,
-    observer_dir: Vec3,
+    observer_pos: Vec3,
     local_x: f64,
     local_y: f64,
 ) -> (Color, Color, Color) {
@@ -18,6 +18,9 @@ pub fn calculate_point_brightness(
     let p_t = triangle.p0 + 
               e1.normalize() * local_x + 
               e2.normalize() * local_y;
+
+    // direction from point to observer
+    let observer_dir = (observer_pos - p_t).normalize();
 
     // normal
     let geom_n = triangle.normal();

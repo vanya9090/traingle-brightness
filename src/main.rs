@@ -31,16 +31,22 @@ fn main() {
             dir: Vec3::new(-1.0, -1.0, -0.5),
             intensity: Vec3::new(80.0, 90.0, 100.0),
         },
+        // Light {
+        //     pos: Vec3::new(10.0, 10.0, -10.0),
+        //     dir: Vec3::new(-1.0, -1.0, 0.5),
+        //     intensity: Vec3::new(80.0, 90.0, 100.0),
+        // },
     ];
 
-    let observer_dir = Vec3::new(0.0, 0.0, -1.0).normalize();
+    // let observer_dir = Vec3::new(0.0, 0.0, -1.0).normalize();
+    let observer_pos = Vec3::new(2.5, 2.5, -10.0);
 
     let test_points = [(0.5, 0.5), (1.0, 1.0), (2.0, 1.5), (3.0, 0.5), (0.2, 4.0)];
 
     println!("Таблица 1. Освещенность E1 (Локальные координаты)");
     println!("[x], [y], [E1_R], [E1_G], [E1_B],");
     for (x, y) in test_points {
-        let (e1, _, _) = calculate_point_brightness(&lights, &triangle, &material, observer_dir, x, y);
+        let (e1, _, _) = calculate_point_brightness(&lights, &triangle, &material, observer_pos, x, y);
         println!("[{:.1}], [{:.1}], [{:.4}], [{:.4}], [{:.4}],", x, y, e1.x, e1.y, e1.z);
     }
 
@@ -52,7 +58,7 @@ fn main() {
     for (x, y) in test_points {
         let pt = triangle.p0 + e1_vec.normalize() * x + e2_vec.normalize() * y;
         
-        let (_, e2, _) = calculate_point_brightness(&lights, &triangle, &material, observer_dir, x, y);
+        let (_, e2, _) = calculate_point_brightness(&lights, &triangle, &material, observer_pos, x, y);
         
         println!("[{:.1}], [{:.1}], [{:.4}], [{:.4}], [{:.4}], [{:.4}],", pt.x, pt.y, pt.z, e2.x, e2.y, e2.z);
     }
@@ -60,7 +66,7 @@ fn main() {
     println!("\nТаблица 3. Яркость L (Условия наблюдения)");
     println!("[x], [y], [L_R], [L_G], [L_B],");
     for (x, y) in test_points {
-        let (_, _, l) = calculate_point_brightness(&lights, &triangle, &material, observer_dir, x, y);
+        let (_, _, l) = calculate_point_brightness(&lights, &triangle, &material, observer_pos, x, y);
         println!("[{:.1}], [{:.1}], [{:.4}], [{:.4}], [{:.4}],", x, y, l.x, l.y, l.z);
     }
 }
