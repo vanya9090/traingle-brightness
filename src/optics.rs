@@ -36,7 +36,8 @@ pub fn calculate_point_brightness(
 
         // I = I0 * cos(theta)
         // theta - angle between point-light and light axis
-        let cos_theta = s_dir.dot(light.dir.normalize()).abs();
+        let ray_from_light = s_dir * -1.0;
+        let cos_theta = ray_from_light.dot(light.dir.normalize()).max(0.0);
         let i_rgb = light.intensity * cos_theta;
 
         // E = (I * cos(alpha)) / R^2
