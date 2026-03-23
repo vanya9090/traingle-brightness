@@ -33,17 +33,19 @@ fn main() {
         },
     ];
 
-    let observer_dir = Vec3::new(0.0, 0.0, 1.0).normalize();
+    let observer_dir = Vec3::new(0.0, 0.0, -1.0).normalize();
 
     let test_points = [(0.5, 0.5), (1.0, 1.0), (2.0, 1.5), (3.0, 0.5), (0.2, 4.0)];
 
     println!("Таблица 1. Освещенность E1 (Локальные координаты)");
+    println!("[x], [y], [E1_R], [E1_G], [E1_B],");
     for (x, y) in test_points {
         let (e1, _, _) = calculate_point_brightness(&lights, &triangle, &material, observer_dir, x, y);
         println!("[{:.1}], [{:.1}], [{:.4}], [{:.4}], [{:.4}],", x, y, e1.x, e1.y, e1.z);
     }
 
     println!("\nТаблица 2. Освещенность E2 (Глобальные координаты)");
+    println!("[X], [Y], [Z], [E2_R], [E2_G], [E2_B],");
     let e1_vec = triangle.p1 - triangle.p0;
     let e2_vec = triangle.p2 - triangle.p0;
 
@@ -56,6 +58,7 @@ fn main() {
     }
 
     println!("\nТаблица 3. Яркость L (Условия наблюдения)");
+    println!("[x], [y], [L_R], [L_G], [L_B],");
     for (x, y) in test_points {
         let (_, _, l) = calculate_point_brightness(&lights, &triangle, &material, observer_dir, x, y);
         println!("[{:.1}], [{:.1}], [{:.4}], [{:.4}], [{:.4}],", x, y, l.x, l.y, l.z);
